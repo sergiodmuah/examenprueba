@@ -1,0 +1,29 @@
+services:
+
+  redis:
+    image: redis:latest
+    networks:
+      - web_network
+    expose:
+      - 6379
+
+
+  app:
+    build: .
+    image: app:latest
+    volumes:
+      - .:/app
+    networks:
+      - web_network
+    environment:
+      - AUTHOR_NAME=sergio
+      - PORT=8080
+      - AUTHOR_EMAIL=sergio@correo.es
+      - REDIS_LOCATION=redis
+      - REDIS_PORT=6379
+    ports:
+      - 80:8080
+
+
+networks:
+  web_network:
